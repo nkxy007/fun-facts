@@ -12,7 +12,7 @@ from chat_translator import translate
 LANGUAGE = 'french'
 TO_LANGUAGE = "English"
 processed_files = []
-model = whisper.load_model("base")
+model = whisper.load_model("medium")
 original_text_list = []
 translated_text_list = []
 
@@ -23,7 +23,7 @@ def timeout_try_windows(audio_file: Any, model: Any, target_function:Callable):
     print("-"*100)
     p = multiprocessing.Process(target=target_function, args=[audio_file, model, q])
     p.start()
-    p.join(2)
+    p.join(30)
     try: 
         if p.is_alive():
             p.terminate()
