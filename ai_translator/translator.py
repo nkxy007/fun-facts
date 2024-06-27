@@ -23,7 +23,7 @@ def timeout_try_windows(audio_file: Any, model: Any, target_function:Callable):
     print("-"*100)
     p = multiprocessing.Process(target=target_function, args=[audio_file, model, q])
     p.start()
-    p.join(30)
+    p.join(3)
     try: 
         if p.is_alive():
             p.terminate()
