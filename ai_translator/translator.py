@@ -3,6 +3,7 @@
 # ====================================
 # 2. use whisper to transcribe
 # ----------------------------
+import multiprocessing.queues
 import whisper
 import os
 from typing import Any, Callable
@@ -12,7 +13,7 @@ from chat_translator import translate
 LANGUAGE = 'french'
 TO_LANGUAGE = "English"
 processed_files = []
-model = whisper.load_model("medium")
+model = whisper.load_model("base")
 original_text_list = []
 translated_text_list = []
 
@@ -23,15 +24,18 @@ def timeout_try_windows(audio_file: Any, model: Any, target_function:Callable):
     print("-"*100)
     p = multiprocessing.Process(target=target_function, args=[audio_file, model, q])
     p.start()
-    p.join(30)
-    try: 
+    p.join(10)
+    try:
         if p.is_alive():
             p.terminate()
             p.join()
     except TimeoutError:
         print(f"sanctioned function {target_function.__name__} cause it waited too long: {p.exitcode}")
         return {"text": ("nan","nan")}
-    result = q.get_nowait()
+    try:
+        result = q.get_nowait()
+    except:
+        result = ("nan","nan")
     return {"text":result}
 
 
