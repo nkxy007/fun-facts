@@ -1,3 +1,5 @@
+# This scripts calls LLm like LLama3 or Phi3 that do not have any clue what is a tool
+# or function and can determine which tool to use by using in-context learning
 import ollama
 import json
 import paramiko
@@ -101,7 +103,7 @@ response = ollama.chat(
               'description': 'a list of commands to run',
             },
           },
-          'required': ['date_of_birth'],
+          'required': ['device_ip_address', 'commands'],
         },
       },
     },
