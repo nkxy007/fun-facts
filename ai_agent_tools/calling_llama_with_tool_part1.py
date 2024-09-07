@@ -141,6 +141,4 @@ if tool_and_data_str:
     print(f'LLM Final answer: {response["message"]["content"]}')
 else:
     print(f'LLM Final answer: {response["message"]["content"]}')
-      
 
-# Run llm again with results
