@@ -122,11 +122,10 @@ print(f'{response=}')
 tool_and_data_str = response["message"]["content"][response["message"]["content"].index('{'):]
 if tool_and_data_str:
     tool_and_data = json.loads(tool_and_data_str)
-    print(f'{tool_and_data=}')
     tool = tool_and_data["name"]
     parameters = tool_and_data["parameters"]
     result = all_tools[tool](**parameters)
-    # add result to context and call LLM again
+    # Pass result to context and call LLM again to structure the output
     response = response = ollama.chat(
         model= model_name,
         messages=[
@@ -140,8 +139,8 @@ if tool_and_data_str:
             }]
     )
     print(f'LLM Final answer: {response["message"]["content"]}')
-
-print(f'LLM Final answer: {response["message"]["content"]}')
+else:
+    print(f'LLM Final answer: {response["message"]["content"]}')
       
 
 # Run llm again with results
