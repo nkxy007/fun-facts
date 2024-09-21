@@ -69,10 +69,16 @@ llm = ChatOllama (
     temperature=0,
 ).bind_tools(tools=tools)
 
-input = "help me troubleshoot nat on a cisco device with ip address 192.168.15.254"
-input = "Bob was born in 1985, what is jane age, return the tool to call"
-#input = "what is the weather like in Sydney Australia?"
+#input_1 = "help me troubleshoot nat on a cisco device with ip address 192.168.15.254"
+input_2 = "Bob was born in 1985, what is jane age, return the tool to call"
+input_3 = "what is the weather like in Sydney Australia?"
+input_4 = "hello, how are you"
 
 agent = create_tool_calling_agent(llm, tools, prompt)
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
-agent_executor.invoke({"input": input})
+responses = []
+for input in [ input_2, input_3, input_4]:
+    response = agent_executor.invoke({"input": input})
+    responses.append(response)
+
+print(f"{responses=}")
